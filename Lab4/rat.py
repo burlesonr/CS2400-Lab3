@@ -162,7 +162,7 @@ class Rat:
         return self._astar_search(self.start_location, target_location)
 
     def rooms_visited_by_last_search(self) -> List[str]:
-        #todo
+        return self._astar_visited_nodes
 
     """
     Author: Danny Atkinson, Ryan Burleson
@@ -176,8 +176,8 @@ class Rat:
         est_cost = start_location.estimated_cost_to(target_location)
 
         while n.room != target_location:
-            if n.room not in _astar_visited_nodes:
-                _astar_visited_nodes.add(n.room)
+            if n.room.name not in _astar_visited_nodes:
+                _astar_visited_nodes.add(n.room.name)
                 if self._echo_rooms_searched:
                     print("Visiting:", n.room.name)
                 for i in range(len(n.room.neighbors())):
