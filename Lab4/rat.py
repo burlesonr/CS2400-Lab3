@@ -202,6 +202,6 @@ class Rat:
     def _astar_sort(self, list: List[(_astar_node, int, int)]) -> List[(_astar_node, int, int)]:
         def _key(v: (_astar_node, int, int)) -> int:
             n, cost, est_cost = v
-            return est_cost
+            return cost + est_cost
 
         return sorted(list, key=_key)
