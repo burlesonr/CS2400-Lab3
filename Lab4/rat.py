@@ -149,11 +149,17 @@ class Rat:
         return list(map(lambda room : room.name, path))
 
 
+    """
+    Author: Ryan Burleson
+    """
     def astar_direction_to(self, target_location: Room) -> List[str]:
-        #todo
+        return self._directions(self.astar_path_to(target_location))
 
+    """
+    Author: Ryan Burleson
+    """
     def astar_path_to(self, target_location: Room) -> List[Room]:
-        #todo
+        return self._astar_search(self.start_location, target_location)
 
     def rooms_visited_by_last_search(self) -> List[str]:
         #todo
