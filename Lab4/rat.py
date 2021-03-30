@@ -204,16 +204,17 @@ class Rat:
     Author: Danny Atkinson, Ryan Burleson
     """
     class _astar_node:
-        def __init__(self, room, previous):
+        def __init__(self, room, previous, depth):
             self.room = room
             self.previous = previous
+            self.depth = depth
 
 
     """
     Author: Ryan Burleson
     """
     def _astar_sort(self, list: List[(_astar_node, int, int)]) -> List[(_astar_node, int, int)]:
-        def _key(v: (self._astar_node, int, int)) -> int:
+        def _key(v: (_astar_node, int, int)) -> int:
             n, cost, est_cost = v
             return cost + est_cost
 
