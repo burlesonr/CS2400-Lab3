@@ -158,9 +158,12 @@ class Rat:
     def rooms_visited_by_last_search(self) -> List[str]:
         #todo
 
+    """
+    Author: Danny Atkinson, Ryan Burleson
+    """
     def _astar_search(self, start_location: Room, target_location: Room) -> List[Room]:
         """ Breadth first search it finds the target room. """
-
+        self._astar_visited_nodes = []
         queue = []
         table = set()
         n = self._astar_node(start_location, None)
@@ -175,6 +178,10 @@ class Rat:
                     queue.append((self._astar_node(neighbor, n),
                                   start_location.estimated_cost_to(neighbor),
                                   neighbor.estimated_cost_to(target_location)))
+                    self._astar_visited_nodes.append((self._astar_node(neighbor, n),
+                                  start_location.estimated_cost_to(neighbor),
+                                  neighbor.estimated_cost_to(target_location)))
+                queue = self._astar_sort(queue)
             if len(queue) > 0:
                 n = queue.pop(0)
             else:
@@ -200,7 +207,7 @@ class Rat:
     Author: Ryan Burleson
     """
     def _astar_sort(self, list: List[(_astar_node, int, int)]) -> List[(_astar_node, int, int)]:
-        def _key(v: (_astar_node, int, int)) -> int:
+        def _key(v: (self._astar_node, int, int)) -> int:
             n, cost, est_cost = v
             return est_cost
 
