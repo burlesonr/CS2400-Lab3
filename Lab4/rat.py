@@ -169,27 +169,23 @@ class Rat:
     """
     def _astar_search(self, start_location: Room, target_location: Room) -> List[Room]:
         """ Breadth first search it finds the target room. """
-        self._astar_visited_nodes = []
         queue = []
-        table = set()
+        self._astar_visited_nodes = set()
         n = self._astar_node(start_location, None)
+        depth = 0
+        est_cost = start_location.estimated_cost_to(target_location)
 
         while n.room != target_location:
-            if n.room not in table:
-                table.add(n.room)
+            if n.room not in _astar_visited_nodes:
+                _astar_visited_nodes.add(n.room)
                 if self._echo_rooms_searched:
                     print("Visiting:", n.room.name)
                 for i in range(len(n.room.neighbors())):
                     neighbor = n.room.neighbors()[i]
-                    queue.append((self._astar_node(neighbor, n),
-                                  n[1]+1,
-                                  neighbor.estimated_cost_to(target_location)))
-                    self._astar_visited_nodes.append((n.room.name,
-                                  n[1]+1,
-                                  neighbor.estimated_cost_to(target_location)))
+                    queue.append((self._astar_node(neighbor, n), depth + 1, neighbor.estimated_cost_to(target_location)))
                 queue = self._astar_sort(queue)
             if len(queue) > 0:
-                n = queue.pop(0)
+                n, depth, est_cost = queue.pop(0)
             else:
                 return []
 
@@ -215,7 +211,7 @@ class Rat:
     """
     def _astar_sort(self, list: List[(_astar_node, int, int)]) -> List[(_astar_node, int, int)]:
         def _key(v: (_astar_node, int, int)) -> int:
-            n, cost, est_cost = v
-            return cost + est_cost
+            n, depth, est_cost = v
+            return depth + est_cost
 
         return sorted(list, key=_key)
