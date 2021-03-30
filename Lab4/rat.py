@@ -182,10 +182,10 @@ class Rat:
                 for i in range(len(n.room.neighbors())):
                     neighbor = n.room.neighbors()[i]
                     queue.append((self._astar_node(neighbor, n),
-                                  start_location.estimated_cost_to(neighbor),
+                                  n[1]+1,
                                   neighbor.estimated_cost_to(target_location)))
-                    self._astar_visited_nodes.append((self._astar_node(neighbor, n),
-                                  start_location.estimated_cost_to(neighbor),
+                    self._astar_visited_nodes.append((n.room.name,
+                                  n[1]+1,
                                   neighbor.estimated_cost_to(target_location)))
                 queue = self._astar_sort(queue)
             if len(queue) > 0:
@@ -204,10 +204,10 @@ class Rat:
     Author: Danny Atkinson, Ryan Burleson
     """
     class _astar_node:
-        def __init__(self, room, previous, depth):
+        def __init__(self, room, previous):
             self.room = room
             self.previous = previous
-            self.depth = depth
+
 
 
     """
