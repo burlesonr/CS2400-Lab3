@@ -155,5 +155,5 @@ class Rat:
     def astar_path_to(self, target_location: Room) -> List[Room]:
         #todo
 
-    def rooms_visited_by_last_searcj(self) -> List[str]:
+    def rooms_visited_by_last_search(self) -> List[str]:
         #todo
