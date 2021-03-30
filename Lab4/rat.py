@@ -35,6 +35,7 @@ class Rat:
         self._dungeon = dungeon
         self.start_location = start_location
         self._echo_rooms_searched = False
+        self._astar_visited_nodes = []
 
     @property
     def dungeon(self) -> Dungeon:
@@ -147,3 +148,12 @@ class Rat:
         """ Converts the list of Rooms to a list of names."""
         return list(map(lambda room : room.name, path))
 
+
+    def astar_direction_to(self, target_location: Room) -> List[str]:
+        #todo
+
+    def astar_path_to(self, target_location: Room) -> List[Room]:
+        #todo
+
+    def rooms_visited_by_last_searcj(self) -> List[str]:
+        #todo
