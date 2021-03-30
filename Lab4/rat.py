@@ -172,7 +172,9 @@ class Rat:
                     print("Visiting:", n.room.name)
                 for i in range(len(n.room.neighbors())):
                     neighbor = n.room.neighbors()[i]
-                    queue.append(self._astar_node(neighbor, n))
+                    queue.append((self._astar_node(neighbor, n),
+                                  start_location.estimated_cost_to(neighbor),
+                                  neighbor.estimated_cost_to(target_location)))
             if len(queue) > 0:
                 n = queue.pop(0)
             else:
