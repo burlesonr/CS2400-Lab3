@@ -157,3 +157,41 @@ class Rat:
 
     def rooms_visited_by_last_search(self) -> List[str]:
         #todo
+
+    def _astar_search(self, start_location: Room, target_location: Room) -> List[Room]:
+        """ Breadth first search it finds the target room. """
+
+        queue = []
+        table = set()
+        n = self._astar_node(start_location, None)
+
+        while n.room != target_location:
+            if n.room not in table:
+                table.add(n.room)
+                if self._echo_rooms_searched:
+                    print("Visiting:", n.room.name)
+                for i in range(len(n.room.neighbors())):
+                    neighbor = n.room.neighbors()[i]
+                    queue.append(self._astar_node(neighbor, n))
+            if len(queue) > 0:
+                n = queue.pop(0)
+            else:
+                return []
+
+        path = []
+        while n != None:
+            path.append(n.room)
+            n = n.previous
+
+        return reversed(path)
+
+    """
+    Author: Danny Atkinson, Ryan Burleson
+    """
+    class _astar_node:
+        def __init__(self, room, previous):
+            self.room = room
+            self.previous = previous
+
+    def _astar_sort(self, list):
+        #todo
