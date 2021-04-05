@@ -20,6 +20,14 @@
 from dungeon import Dungeon, Room, Direction
 from typing import *
 
+"""
+Author: Danny Atkinson, Ryan Burleson
+"""
+class _astar_node:
+    def __init__(self, room, previous):
+        self.room = room
+        self.previous = previous
+
 
 class Rat:
     """Represents a Rat agent in a dungeon. It enables navigation of the 
@@ -152,7 +160,7 @@ class Rat:
     """
     Author: Ryan Burleson
     """
-    def astar_direction_to(self, target_location: Room) -> List[str]:
+    def astar_directions_to(self, target_location: Room) -> List[str]:
         return self._directions(self.astar_path_to(target_location))
 
     """
@@ -171,18 +179,18 @@ class Rat:
         """ Breadth first search it finds the target room. """
         queue = []
         self._astar_visited_nodes = set()
-        n = self._astar_node(start_location, None)
+        n = _astar_node(start_location, None)
         depth = 0
         est_cost = start_location.estimated_cost_to(target_location)
 
         while n.room != target_location:
-            if n.room.name not in _astar_visited_nodes:
-                _astar_visited_nodes.add(n.room.name)
+            if n.room.name not in self._astar_visited_nodes:
+                self._astar_visited_nodes.add(n.room.name)
                 if self._echo_rooms_searched:
                     print("Visiting:", n.room.name)
                 for i in range(len(n.room.neighbors())):
                     neighbor = n.room.neighbors()[i]
-                    queue.append((self._astar_node(neighbor, n), depth + 1, neighbor.estimated_cost_to(target_location)))
+                    queue.append((_astar_node(neighbor, n), depth + 1, neighbor.estimated_cost_to(target_location)))
                 queue = self._astar_sort(queue)
             if len(queue) > 0:
                 n, depth, est_cost = queue.pop(0)
@@ -196,22 +204,14 @@ class Rat:
 
         return reversed(path)
 
-    """
-    Author: Danny Atkinson, Ryan Burleson
-    """
-    class _astar_node:
-        def __init__(self, room, previous):
-            self.room = room
-            self.previous = previous
-
 
 
     """
     Author: Ryan Burleson
     """
-    def _astar_sort(self, list: List[(_astar_node, int, int)]) -> List[(_astar_node, int, int)]:
-        def _key(v: (_astar_node, int, int)) -> int:
-            n, depth, est_cost = v
-            return depth + est_cost
+    def _astar_sort(self, list):
+        return sorted(list, key=self._key)
 
-        return sorted(list, key=_key)
+    def _key(self, v) -> int:
+        n, depth, est_cost = v
+        return depth + est_cost
